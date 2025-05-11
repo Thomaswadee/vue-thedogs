@@ -21,7 +21,6 @@ const routes = [
 //讨论区
 //关于我们
 
-//登录/注册
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
