@@ -8,7 +8,6 @@
         <WorkCard :workId="6" />
         <WorkCard :workId="7" />
         <WorkCard :workId="8" />
-        <!-- 后期可以更方便的添加作品 -->
     </div>
 </template>
 
@@ -21,12 +20,8 @@ import WorkCard from '../view.components/WorkCard.vue';
     width: 80%;
     margin: 0 auto;
     padding: 20px 0;
-    /* 添加上下内边距 */
     display: flex;
-    /* 使用 flex 布局 */
     flex-direction: column;
-    /* 垂直排列 */
     gap: 30px;
-    /* 使用 gap 属性增加间距 */
 }
 </style>

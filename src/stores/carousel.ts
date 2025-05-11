@@ -11,6 +11,6 @@ export const useCarouselStore = defineStore('carousel', {
         ]
     }),
     actions: {
-        // 可以在这里定义一些操作状态的方法
+
     }
 });

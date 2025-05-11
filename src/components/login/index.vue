@@ -1,7 +1,7 @@
 <template>
     <div class="login_container">
-        <el-dialog v-model="userStore.visible" title="用户登录/注册" width="500">
-            <!-- 根据 isLogin 的值决定显示登录组件还是注册组件 -->
+        <el-dialog v-model="userStore.visible" title="用户登录/注册">
+            <!-- 判断 isLogin 的值，决定显示登录组件还是注册组件 -->
             <div v-if="isLogin">
                 <!-- 登录组件 -->
                 <el-form :model="form" :rules="loginRules" ref="loginFormRef" class="login_form">
@@ -65,8 +65,8 @@
 import { reactive, ref } from 'vue';
 import useUserStore from '../../stores/login.ts';
 import type { FormInstance } from 'element-plus';
-import { ElMessage } from 'element-plus'; // 引入 ElMessage
-import request from '../../utils/request'; // 导入封装好的 request 对象
+import { ElMessage } from 'element-plus';
+import request from '../../utils/request';
 
 let userStore = useUserStore();
 
@@ -101,6 +101,7 @@ const registerFormRef = ref<FormInstance>();
 
 // 验证规则
 const validateConfirmPassword = (rule: any, value: string, callback: any) => {
+    //rule必要，但是未被调用，所以在这里打印一下防止飘黄
     console.log(rule);
     if (value === '') {
         callback(new Error('请再次输入密码'));
@@ -249,6 +250,10 @@ const sendCaptcha = async () => {
 </script>
 
 <style scoped>
+:deep(.el-dialog) {
+    width: 500px;
+}
+
 :deep(.el-dialog__body) {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -286,5 +291,16 @@ const sendCaptcha = async () => {
 
 .el-form-item__content .el-input+.el-button {
     margin-top: 10px;
+}
+
+@media (max-width: 510px) {
+    .input-width {
+        width: 150px;
+    }
+
+    :deep(.el-dialog) {
+        width: 320px;
+    }
+
 }
 </style>
