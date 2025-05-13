@@ -14,7 +14,8 @@
             特别感谢：所有乐队成员
         </h2>
         <h2>
-            友情链接：暂无
+            友情链接：<a href="https://sanyier312.github.io/" target="_blank"
+                style="color: black;">https://sanyier312.github.io/</a>
         </h2>
     </div>
 </template>
