@@ -83,6 +83,7 @@ const scrollToTop = () => {
     text-decoration: none;
     text-decoration: underline;
 }
+/* 移动端适配 */
 @media (max-width: 796px) {
     .block h2{
           max-width:90%;
