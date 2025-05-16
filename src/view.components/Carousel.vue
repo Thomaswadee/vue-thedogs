@@ -29,6 +29,18 @@ const images = carouselStore.images;
 
 const carouselHeight = ref('378px');
 
+// 节流函数：保证某个函数在指定时间间隔内只执行一次，可以在后面多次调用
+const throttle = (fn: Function, delay: number) => {
+  let lastTime = 0;
+  return (...args: any[]) => {
+    const now = new Date().getTime();
+    if (now - lastTime > delay) {
+      fn.apply(this, args);
+      lastTime = now;
+    }
+  };
+};
+
 // 计算轮播图高度
 const updateCarouselHeight = () => {
     const width = window.innerWidth;
@@ -61,27 +73,28 @@ const handleClick = (link: string) => {
 
 // 显示信息函数，可以写在调用此函数之后
 const activeInfoIndex = ref<number | null>(null);
-const showInfo = (index: number) => {
-    activeInfoIndex.value = index;
-};
 
-// 隐藏信息
-const hideInfo = () => {
-    if (window.innerWidth >= 600) {
-        activeInfoIndex.value = null;
-    }
-};
+//启用节流函数，限制函数触发频率，每200ms只触发一次
+const showInfo = throttle((index: number) => {
+  activeInfoIndex.value = index;
+}, 200);
+
+const hideInfo = throttle(() => {
+  if (window.innerWidth >= 600) {
+    activeInfoIndex.value = null;
+  }
+}, 200);
 
 const carouselRef = ref<InstanceType<typeof ElCarousel>>();
 
-const prev = () => {
-    carouselRef.value?.prev();
-};
+//启用节流函数，每500ms只执行一次轮播图切换，不管用户点击几次按钮
+const prev = throttle(() => {
+  carouselRef.value?.prev();
+}, 500);
 
-const next = () => {
-    carouselRef.value?.next();
-};
-
+const next = throttle(() => {
+  carouselRef.value?.next();
+}, 500);
 const activeIndex = ref(0);
 
 // 监听轮播图切换事件

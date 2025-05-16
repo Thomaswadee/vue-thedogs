@@ -14,8 +14,12 @@
             特别感谢：所有乐队成员
         </h2>
         <h2>
-            友情链接：<a href="https://sanyier312.github.io/" target="_blank"
+            友情链接：
+                <a href="https://sanyier312.github.io/" target="_blank"
                 style="color: black;">https://sanyier312.github.io/</a>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="http://video.gach1koi.site" target="_blank"
+                style="color: black;">http://video.gach1koi.site</a>
         </h2>
     </div>
 </template>

@@ -3,7 +3,7 @@
         <!--左半部分，但屏幕尺寸小时会改为上半部分-->
         <div class="left-section">
             <a :href="work.link" target="_blank">
-                <img :src="work.cover" alt="作品封面" class="cover-image" />
+                <img :data-src="work.cover" alt="作品封面" class="cover-image" v-lazy />
             </a>
         </div>
         <!--右半部分，同上-->
@@ -54,18 +54,68 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useWorksStore } from '../stores/worksStore';
-import { View } from '@element-plus/icons-vue';
+import { ref, onMounted } from 'vue'
+import { useWorksStore } from '../stores/worksStore'
+import { View } from '@element-plus/icons-vue'
 
+interface Work {
+    id: number;
+    cover: string;
+    title: string;
+    link: string;
+    members: string[];
+    tracks: string[];
+}
 
 const props = defineProps<{
-    workId: number;
-}>();
+    workId: number
+}>()
 
-const worksStore = useWorksStore();
-const work = ref(worksStore.getWorkById(props.workId));
-console.log(work.value);
+// 获取作品数据
+const worksStore = useWorksStore()
+const work = ref<Work | null>(worksStore.getWorkById(props.workId) || null)
+console.log(work.value)
+const isLoading = ref(false)
+
+// 自定义v-lazy指令，实现卡片内的图片懒加载
+const vLazy = {
+    mounted(el: HTMLImageElement) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const src = el.dataset.src
+                    if (src) {
+                        el.src = src
+                        observer.unobserve(el)
+                    }
+                }
+            })
+        }, { rootMargin: '0px 0px 200px 0px' })
+
+        observer.observe(el)
+    }
+}
+
+// 卡片内的数据懒加载
+onMounted(() => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !work.value && !isLoading.value) {
+                isLoading.value = true
+                worksStore.fetchWorkById(props.workId).then(data => {
+                    if (data) {
+                        work.value = data
+                    }
+                    isLoading.value = false
+                })
+                observer.unobserve(entry.target)
+            }
+        })
+    }, { rootMargin: '0px 0px 200px 0px' })
+
+    observer.observe(document.querySelector('.card')!)
+})
+
 </script>
 
 <style scoped>

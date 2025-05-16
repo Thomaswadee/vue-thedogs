@@ -84,5 +84,13 @@ export const useWorksStore = defineStore('works', {
     getWorkById(id: number): Work | undefined {
       return this.works.find(work => work.id === id);
     },
+    async fetchWorkById(id: number): Promise<Work | undefined> {
+      // 模拟异步请求，例如从服务器获取数据
+      // const response = await fetch(`/api/works/${id}`);
+      // return await response.json();
+      
+      // 当前使用本地模拟数据
+      return Promise.resolve(this.getWorkById(id));
+    }
   },
 });
